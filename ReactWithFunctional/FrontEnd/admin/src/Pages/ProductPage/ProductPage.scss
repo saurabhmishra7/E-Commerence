@@ -1,0 +1,45 @@
+*{
+  //border: solid;
+}
+.product-table{
+  padding: 0px 30px;
+  text-align: center;
+  
+  .header{
+    display: inline-block;
+    h2{
+      margin: 0;
+    }
+  }
+  .coloumn-name{
+    font-size: 30px;
+  }
+
+  .product-table-body{
+    .edit-delete{
+      display: flex;
+     flex-wrap: wrap;
+     justify-content: space-around;
+    }
+  }
+}
+.delete-edit{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  background-color: rgb(165, 170, 179);
+}
+
+.update{
+  input{
+    border-radius: 10px;
+    border-color: beige;
+    margin-bottom: 10px;
+  }
+  textarea{
+    border-radius: 20px;
+    border: 2px groove;
+    border-color: beige;
+    margin-bottom: 10px;
+  }
+}

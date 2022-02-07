@@ -1,0 +1,151 @@
+import { Badge } from "@material-ui/core";
+import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import React, { Component } from "react";
+import styled from "styled-components";
+import { mobile } from "../responsive";
+import { Link,Navigate} from "react-router-dom";
+import helper from "../Helper/helper";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import Action from "../store/cart/cartAction";
+const navItems1 = [{ content: "REGISTER", link: "/register" },{ content: "LOGIN", link: "/login" }]
+const navItems2 = [{content:"MYACCOUNT",link:"/profile"},{content:"LOG OUT",link:"/logout"}];
+
+const Container = styled.div`
+  height: 60px;
+  ${mobile({ height: "50px" })}
+`;
+
+const Wrapper = styled.div`
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  ${mobile({ padding: "10px 0px" })}
+`;
+
+const Left = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+`;
+
+const Language = styled.span`
+  font-size: 14px;
+  cursor: pointer;
+  ${mobile({ display: "none" })}
+`;
+
+const SearchContainer = styled.div`
+  border: 0.5px solid lightgray;
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+  padding: 5px;
+`;
+
+const Input = styled.input`
+  border: none;
+  ${mobile({ width: "50px" })}
+`;
+
+const Center = styled.div`
+  flex: 1;
+  text-align: center;
+`;
+
+const Logo = styled.h1`
+  font-weight: bold;
+  ${mobile({ fontSize: "24px" })}
+`;
+const Right = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  ${mobile({ flex: 2, justifyContent: "center" })}
+`;
+
+const MenuItem = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+`;
+
+class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      navItems:navItems1,
+      logoutFlag:false
+    }
+  }
+  clickHandler = (event)=>{
+    
+    if(event.target.innerHTML==="LOG OUT"){
+      window.localStorage.removeItem("user");
+    }
+  }
+
+  componentDidMount(){
+   const token = JSON.parse(localStorage.getItem('user'))?.token;
+   const userID = JSON.parse(localStorage.getItem("user"))?.userID;
+
+    if(token){
+      this.setState({
+        navItems:navItems2
+      })
+      this.props.getCartRequest(userID);
+    }
+  }
+
+  render() {
+    return (
+      <Container>
+        <Wrapper>
+          <Left>
+            <Language>EN</Language>
+            <SearchContainer>
+              <Input placeholder="Search" />
+              <Search style={{ color: "gray", fontSize: 16 }} />
+            </SearchContainer>
+          </Left>
+          <Center>
+            <Logo>LAMA.</Logo>
+          </Center>
+          <Right>
+            {this.state.navItems.map((element) => {
+              return (
+                <div>
+                  <MenuItem>
+                    <Link to={element.link} onClick={this.clickHandler}>{element.content}</Link>
+                  </MenuItem>
+                </div>
+              );
+            })}
+            <MenuItem>
+              <Link to="/cart">
+                <Badge badgeContent={this.props.cartItems.length} color="primary">
+                  <ShoppingCartOutlined />
+                </Badge>
+              </Link>
+            </MenuItem>
+          </Right>
+        </Wrapper>
+      </Container>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  cartItems: state.cart.cartItems,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getCartRequest: bindActionCreators(Action.getCartProduct, dispatch),
+});
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Navbar);
+

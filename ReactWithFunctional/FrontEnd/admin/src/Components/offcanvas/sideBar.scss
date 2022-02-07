@@ -1,0 +1,44 @@
+*{
+  //border: solid;
+}
+.off-canvas{
+  width: 280px;
+}
+.offcanvas-header{
+  padding: 0;
+  background-color: rgba(135, 135, 240, 0.678);
+}
+
+.offcanvas-body{
+  background-color: rgba(203, 210, 214, 0.541);
+  margin: 0;
+  padding: 0;
+  .dashBoard-items{
+    font-size: 20px;
+    margin:0;
+    padding:10px;
+  }
+}
+
+.dashBoard{
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+  color: white;
+  background-color: rgba(135, 135, 240, 0.39);
+  justify-content: space-between;
+  .logout-button{
+    padding-top: 10px;
+    color: white;
+    font-size: 15px;
+  }
+}
+
+.side-bar{
+  padding: 18px;
+}
+
+a{
+  text-decoration: none;
+  color: rgb(110, 107, 107);
+}

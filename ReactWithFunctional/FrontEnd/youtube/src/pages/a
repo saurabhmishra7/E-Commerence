@@ -1,0 +1,190 @@
+<Form>
+                <Input
+                  placeholder="first name"
+                  name="firstName"
+                  onChange={this.changeHandler1}
+                />
+                <Input
+                  placeholder="last name"
+                  name="lastName"
+                  onChange={this.changeHandler2}
+                />
+                <Input
+                  placeholder="username"
+                  name="userName"
+                  onChange={this.changeHandler3}
+                />
+                <Input
+                  placeholder="email"
+                  type="email"
+                  onChange={this.changeHandler4}
+                />
+                <Input
+                  placeholder="password"
+                  type="password"
+                  onChange={this.changeHandler5}
+                />
+                <Input
+                  placeholder="confirm password"
+                  name="confirmPassword"
+                  onChange={this.changeHandler6}
+                />
+                <Agreement>
+                  By creating an account, I consent to the processing of my
+                  personal data in accordance with the <b>PRIVACY POLICY</b>
+                </Agreement>
+                <Button onClick={this.clickHandler}>CREATE</Button>
+              </Form>
+
+
+
+
+
+
+              initialValues={{
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            }}
+            validationSchema={Yup.object().shape({
+                firstName: Yup.string()
+                    .required('First Name is required'),
+                lastName: Yup.string()
+                    .required('Last Name is required'),
+                email: Yup.string()
+                    .email('Email is invalid')
+                    .required('Email is required'),
+                password: Yup.string()
+                    .min(6, 'Password must be at least 6 characters')
+                    .required('Password is required'),
+                confirmPassword: Yup.string()
+                    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                    .required('Confirm Password is required')
+            })}
+              onSubmit={(values, { setSubmitting },e) => {
+                e.preventDefault()
+                clickHandler(values);
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2));
+                  setSubmitting(false);
+                }, 400);
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="form">
+                  <div>
+                  <Field  type="text" name="firstName" placeholder="First Name" required/>
+                  <ErrorMessage name="firstName" component="div" />
+                  </div>
+                  <div>
+                  <Field type="text" name="lastName" placeholder="Last Name" required/>
+                  <ErrorMessage name="lastName" component="div" />
+                  </div>
+                  <div>
+                  <Field type="text" name="userName" placeholder="userName" required/>
+                  <ErrorMessage name="userName" component="div" />
+                  </div>
+                  <div>
+                  <Field type="email" name="email"  placeholder="email" required/>
+                  <ErrorMessage name="email" component="div" className="email" />
+                  </div>
+                  <div>
+                  <Field type="password" name="password" placeholder="password" required/>
+                  <ErrorMessage name="password" component="div" />
+                  </div>
+                  <div>
+                  <Field type="text" name="confirm password" placeholder="Confirm Password" required/>
+                  <ErrorMessage name="confirm password" component="" />
+                  </div>
+                  <Button className="submit-button" >SUBMIT</Button>
+                </Form>
+              )}
+
+
+
+
+
+
+
+
+  const [user,setUser] = useState();
+
+  const clickHandler = (values) => {
+    setUser(values);
+  };
+  console.log(user)
+  return (
+    <div>
+      <Container>
+        <Wrapper>
+          <Title>CREATE AN ACCOUNT</Title>
+          <Forms >
+            <Formik
+              initialValues={{
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            }}
+            validationSchema={Yup.object().shape({
+                firstName: Yup.string()
+                    .required('First Name is required'),
+                lastName: Yup.string()
+                    .required('Last Name is required'),
+                email: Yup.string()
+                    .email('Email is invalid')
+                    .required('Email is required'),
+                password: Yup.string()
+                    .min(6, 'Password must be at least 6 characters')
+                    .required('Password is required'),
+                confirmPassword: Yup.string()
+                    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                    .required('Confirm Password is required')
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              clickHandler(values);
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="form">
+                  <div>
+                  <Field  type="text" name="firstName" placeholder="First Name" required/>
+                  <ErrorMessage name="firstName" component="div" />
+                  </div>
+                  <div>
+                  <Field type="text" name="lastName" placeholder="Last Name" required/>
+                  <ErrorMessage name="lastName" component="div" />
+                  </div>
+                  <div>
+                  <Field type="text" name="userName" placeholder="userName" required/>
+                  <ErrorMessage name="userName" component="div" />
+                  </div>
+                  <div>
+                  <Field type="email" name="email"  placeholder="email" required/>
+                  <ErrorMessage name="email" component="div" className="email" />
+                  </div>
+                  <div>
+                  <Field type="password" name="password" placeholder="password" required/>
+                  <ErrorMessage name="password" component="div" />
+                  </div>
+                  <div>
+                  <Field type="text" name="confirm password" placeholder="Confirm Password" required/>
+                  <ErrorMessage name="confirm password" component="" />
+                  </div>
+                  <Button className="submit-button" type="submit" disabled={isSubmitting} >SUBMIT</Button>
+                </Form>
+              )}
+            </Formik>
+          </Forms>
+        </Wrapper>
+      </Container>
+    </div>
+  );
+}
